@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 //including html routes into the server file
 //(app) means express-routes first because we first pull data to display in html pages;
 //api
-// require("./app/routing/api-routes.js")(app);
-// require("./app/routing/html-routes.js")(app);
+require("./app/routing/apiRoutes.js")(app);
+require("./app/routing/htmlRoutes.js")(app);
 
 
 app.listen(PORT, function () {
