@@ -28,6 +28,7 @@
     <hr>
     <h4><strong>Question 1</strong></h4>
     <h5>Your mind is always buzzing with unexplored ideas and plans.</h5>
+
     <select class="chosen-select" id="q1" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
@@ -47,6 +48,7 @@
       <option value="4">4</option>
       <option value="5">5 (Strongly Agree)</option>
     </select>
+
     <br>
     <br>
     <h4><strong>Question 3</strong></h4>
@@ -71,20 +73,9 @@
     </select>
     <br>
     <br>
-    <h4><strong>Question 4</strong></h4>
-    <h5>You rarely do something just out of sheer curiosity.</h5>
-    <select class="chosen-select" id="q5" style="#">
-      <option value="1">1 (Strongly Disagree)</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5 (Strongly Agree)</option>
-    </select>
-    <br>
-    <br>
     <h4><strong>Question 5</strong></h4>
     <h5>People can rarely upset you.</h5>
-    <select class="chosen-select" id="q6" style="#">
+    <select class="chosen-select" id="q5" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -95,7 +86,7 @@
     <br>
     <h4><strong>Question 6</strong></h4>
     <h5>It is often difficult for you to relate to other people’s feelings.</h5>
-    <select class="chosen-select" id="q7" style="#">
+    <select class="chosen-select" id="q6" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -106,7 +97,7 @@
     <br>
     <h4><strong>Question 7</strong></h4>
     <h5>In a discussion, truth should be more important than people’s sensitivities.</h5>
-    <select class="chosen-select" id="q8" style="#">
+    <select class="chosen-select" id="q7" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -117,7 +108,7 @@
     <br>
     <h4><strong>Question 8</strong></h4>
     <h5>You rarely get carried away by fantasies and ideas.</h5>
-    <select class="chosen-select" id="q9" style="#">
+    <select class="chosen-select" id="q8" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -128,7 +119,7 @@
     <br>
     <h4><strong>Question 9</strong></h4>
     <h5>You think that everyone’s views should be respected regardless of whether they are supported by facts or not.</h5>
-    <select class="chosen-select" id="q10" style="#">
+    <select class="chosen-select" id="q9" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -139,7 +130,7 @@
     <br>
     <h4><strong>Question 10</strong></h4>
     <h5>You feel more energetic after spending time with a group of people.</h5>
-    <select class="chosen-select" id="q1" style="#">
+    <select class="chosen-select" id="q10" style="#">
       <option value="1">1 (Strongly Disagree)</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -151,25 +142,9 @@
     <button type="submit" class="btn btn-primary btn-lg px-5" id="submit"><i class="fa fa-check-circle"
         aria-hidden="true"></i> Submit</button>
     <hr>
-
-
-
-    <!-- <div class="chosen-container chosen-container-single" style="width: 157px;" title="" id="q1_chosen"><a
-        class="chosen-single"><span>1 (Strongly Disagree)</span>
-        <div><b></b></div>
-      </a>
-      <div class="chosen-drop">
-        <div class="chosen-search"><input type="text" autocomplete="off"></div>
-        <ul class="chosen-results">
-          <li class="active-result result-selected" data-option-array-index="1" style="">1 (Strongly Disagree)</li>
-          <li class="active-result" data-option-array-index="2" style="">2</li>
-          <li class="active-result" data-option-array-index="3" style="">3</li>
-          <li class="active-result" data-option-array-index="4" style="">4</li>
-          <li class="active-result" data-option-array-index="5" style="">5 (Strongly Agree)</li>
-        </ul>
-      </div>
-    </div> -->
-
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-6 bestFriendPlace "></div>
   </div>
 
     <footer class="footer">
@@ -205,20 +180,77 @@
             ]
         }
         console.log(userData.scores);
-          let currentURL = window.location.origin;
-    if (userData.name == "" || userData.photo !== "") {
-        alert("Please, enter your name and photo link");
-        
-      } else {
-         $.post(currentURL + '/api/friends', userData, function (data) {
-          //clearing out the forms
-          $('#name').val("");
-          $('#photo').val("");
-        });
-        return false;
+      let currentURL = window.location.origin;
+      $.post(currentURL + '/api/friends', userData, function(data) {
+        console.log(data);
+        //clearing out the forms
+        $('#name').val("");
+        $('#photo').val("");
+      });
+    return false;
+  })
+   
+ 
+
+  // //shows current url - pulling origin url where the user right now
+  var currentURL = window.location.origin;
+
+  //using ajax to get data from api/tables (our server) to display
+  $.ajax({ url: currentURL + "/api/friends", method: "GET" })
+    .done(function (friendsData) {
+      console.log("----------------------------------");
+      console.log("URL: " + currentURL + "/api/friends");
+      console.log("----------------------------------");
+      console.log(friendsData);
+      console.log("----------------------------------");
+           // getiing my data and transfer arrays to numbers
+      let mineScores = friendsData.slice(-1).pop().scores.map(Number);
+      let totalArr = [];
+      let friendsArr = friendsData.slice(0, -1);
+      // console.log(friendsArr);
+    for (let i = 0; i < friendsArr.length; i++) {
+      friendsArrScores = friendsArr[i].scores.map(Number);
+      // console.log(friendsArrScores);
+      let totalDiff = 0;
+      for (let i = 0; i < mineScores.length; i++) {
+
+        // finding the total difference sum
+        totalDiff += Math.abs(mineScores[i] - friendsArrScores[i]);
       }
-      })
-     
+      // console.log(totalDiff);
+
+      // pushing totalDiff to totalArr and then need to find min number
+      totalArr.push(totalDiff);
+    }
+    console.log(totalArr);
+    //now we need to find a min number in totalDiff array and
+    //calculate min number and find its index which is going to equal the best friend
+    indexBestFriend = totalArr.indexOf(Math.min.apply(null, totalArr));
+    console.log(indexBestFriend);
+     matchedFriendName = friendsArr[indexBestFriend].name;
+    matchedFriendPhoto = friendsArr[indexBestFriend].photo;
+    console.log(matchedFriendName);
+    console.log(matchedFriendPhoto);
+
+    let bestFriend = $('<div>');
+    bestFriend.append(matchedFriendName)
+     $(".bestFriendPlace").append("<h1>" + matchedFriendName + "</h1>");
+     $(".bestFriendPlace").append(`<img src=${matchedFriendPhoto}  height="200px" width="200px">`);
+    // friendsData.push(req.body);
+    // res.json(true);
+      //displaying data in jQuery
+      // for (var i = 0; i < tableData.length; i++) {
+      //   console.log(tableData[i]);
+      //   var tableSection = $('<div>');
+      //   tableSection.addClass('well');
+      //   tableSection.attr('id', 'tableWell-' + i + 1);
+      //   $('#tableSection').append(tableSection);
+      //   //table number = index +1
+      //   var tableNumber = i + 1;
+      //   $('#tableWell-' + i + 1).append('<h2><span class="label label-primary">'
+      //     + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
+      // }
+    }) 
         // AJAX post the data to the friends API.
     //     $.post("/api/friends", userData, function (data) {
 
