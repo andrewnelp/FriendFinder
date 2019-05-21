@@ -244,52 +244,53 @@
         $('#name').val("");
         $('#photo').val("");
       });
-    return false;
-    window.location.reload();
+    // return false;
+     // //shows current url - pulling origin url where the user right now
+      // let currentURL = window.location.origin;
+
+      //using ajax to get data from api/tables (our server) to display
+      $.ajax({ url: currentURL + "/api/friends", method: "GET" })
+        .done(function (friendsData) {
+
+          // getiing my data and transfer arrays to numbers
+          let mineScores = friendsData.slice(-1).pop().scores.map(Number);
+          // console.log(mineScores);
+          let totalArr = [];
+          let friendsArr = friendsData.slice(0, -1);
+          // console.log(friendsArr);
+          for (let i = 0; i < friendsArr.length; i++) {
+            friendsArrScores = friendsArr[i].scores.map(Number);
+            // console.log(friendsArrScores);
+            let totalDiff = 0;
+            for (let i = 0; i < mineScores.length; i++) {
+
+              // finding the total difference sum
+              totalDiff += Math.abs(mineScores[i] - friendsArrScores[i]);
+            }
+            // console.log(totalDiff);
+
+            // pushing totalDiff to totalArr and then need to find min number
+            totalArr.push(totalDiff);
+          }
+          console.log(totalArr);
+          //now we need to find a min number in totalDiff array and
+          //calculate min number and find its index which is going to equal the best friend
+          indexBestFriend = totalArr.indexOf(Math.min.apply(null, totalArr));
+          console.log(indexBestFriend);
+          matchedFriendName = friendsArr[indexBestFriend].name;
+          matchedFriendPhoto = friendsArr[indexBestFriend].photo;
+          console.log(matchedFriendName);
+          // console.log(matchedFriendPhoto);
+          popup.css("display", "block");
+          $('#friendName').html("<h1>" + matchedFriendName + "</h1>")
+          $("img").attr("src", matchedFriendPhoto);
+        }) 
+    // window.location.reload();
   })
    
  
 
-  // //shows current url - pulling origin url where the user right now
-  let currentURL = window.location.origin;
-
-  //using ajax to get data from api/tables (our server) to display
-  $.ajax({ url: currentURL + "/api/friends", method: "GET" })
-    .done(function (friendsData) {
-      
-           // getiing my data and transfer arrays to numbers
-      let mineScores = friendsData.slice(-1).pop().scores.map(Number);
-      // console.log(mineScores);
-      let totalArr = [];
-      let friendsArr = friendsData.slice(0, -1);
-      // console.log(friendsArr);
-    for (let i = 0; i < friendsArr.length; i++) {
-      friendsArrScores = friendsArr[i].scores.map(Number);
-      // console.log(friendsArrScores);
-      let totalDiff = 0;
-      for (let i = 0; i < mineScores.length; i++) {
-
-        // finding the total difference sum
-        totalDiff += Math.abs(mineScores[i] - friendsArrScores[i]);
-      }
-      // console.log(totalDiff);
-
-      // pushing totalDiff to totalArr and then need to find min number
-      totalArr.push(totalDiff);
-    }
-    console.log(totalArr);
-    //now we need to find a min number in totalDiff array and
-    //calculate min number and find its index which is going to equal the best friend
-    indexBestFriend = totalArr.indexOf(Math.min.apply(null, totalArr));
-    console.log(indexBestFriend);
-     matchedFriendName = friendsArr[indexBestFriend].name;
-    matchedFriendPhoto = friendsArr[indexBestFriend].photo;
-    console.log(matchedFriendName);
-    // console.log(matchedFriendPhoto);
-    popup.css("display", "block");
-    $('#friendName').html("<h1>" + matchedFriendName + "</h1>")
-    $("img").attr("src", matchedFriendPhoto);
-    }) 
+ 
 
    close.on('click', function() {
       popup.css("display", "none");
