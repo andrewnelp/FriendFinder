@@ -185,22 +185,38 @@
     </select>
     <br>
     <br>
-    <button type="submit" class="btn btn-primary btn-lg px-5" id="submit"><i class="fa fa-check-circle"
-        aria-hidden="true"></i> Submit</button>
+    <!-- <button type="submit" class="btn btn-primary btn-lg px-5" ><i class="fa fa-check-circle"
+        aria-hidden="true"></i> Submit</button> -->
     <hr>
+    <button id="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> Submit
+    </button>
   </div>
-
-    <div class="popup">
-      <div class="popup-close">x</div>
-      <div class="popup-content">
-        <h2 id="friendName"></h2>
-        <div >
-          `<img id="photo" src="" height="200px" width="200px">`
+    
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Modal Heading</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+    
+          <!-- Modal body -->
+          <div class="modal-body text-center">
+            <img id="photo" src="" height="300px" width="300px">
+          </div>
+    
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+    
         </div>
       </div>
     </div>
-    
-  
 
     <footer class="footer">
       <div class="container">
@@ -211,9 +227,6 @@
 
   </div>
   <script type='text/javascript'>
-    // const button = $('button');
-    const popup = $('.popup-wrapper');
-    const close = $('.popup-close');
     // Capture the form inputs
     $("#submit").on("click", function (event) {
       event.preventDefault();
@@ -245,8 +258,7 @@
         $('#photo').val("");
       });
     // return false;
-     // //shows current url - pulling origin url where the user right now
-      // let currentURL = window.location.origin;
+    
 
       //using ajax to get data from api/tables (our server) to display
       $.ajax({ url: currentURL + "/api/friends", method: "GET" })
@@ -281,28 +293,11 @@
           matchedFriendPhoto = friendsArr[indexBestFriend].photo;
           console.log(matchedFriendName);
           // console.log(matchedFriendPhoto);
-          popup.css("display", "block");
-          $('#friendName').html("<h1>" + matchedFriendName + "</h1>")
+          $('.modal-title').html("<h1>" + matchedFriendName + "</h1>")
           $("img").attr("src", matchedFriendPhoto);
         }) 
-    // window.location.reload();
   })
-   
- 
 
- 
-
-   close.on('click', function() {
-      popup.css("display", "none");
-    });
-
-    popup.on('click', function(e){
-      //NEEDS FIXING
-      if (e.target.className === 'popup-wrapper') {
-        popup.css("display", 'none');
-      }
-      
-    });
   </script>
 
   <!-- Optional JavaScript -->
