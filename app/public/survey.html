@@ -12,7 +12,53 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
   <title>Friends Finder!</title>
+  <style>
+    button{
+  display: block;
+  margin: 20px auto;
+  background: crimson;
+  color: white;
+  border: 0;
+  padding: 6px 10px;
+}
+
+.popup-wrapper{
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.popup{
+  font-family: arial;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 10% auto;
+  padding: 20px;
+  background: white;
+  position: relative;
+}
+
+.popup a{
+  background: crimson;
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+}
+
+.popup-close{
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  cursor: pointer;
+}
+  </style>
 </head>
 
 <body>
@@ -143,9 +189,18 @@
         aria-hidden="true"></i> Submit</button>
     <hr>
   </div>
-  <div class="row justify-content-center">
-    <div class="col-6 bestFriendPlace "></div>
-  </div>
+
+    <div class="popup">
+      <div class="popup-close">x</div>
+      <div class="popup-content">
+        <h2 id="friendName"></h2>
+        <div >
+          `<img id="photo" src="" height="200px" width="200px">`
+        </div>
+      </div>
+    </div>
+    
+  
 
     <footer class="footer">
       <div class="container">
@@ -156,7 +211,9 @@
 
   </div>
   <script type='text/javascript'>
-
+    // const button = $('button');
+    const popup = $('.popup-wrapper');
+    const close = $('.popup-close');
     // Capture the form inputs
     $("#submit").on("click", function (event) {
       event.preventDefault();
@@ -198,13 +255,9 @@
   //using ajax to get data from api/tables (our server) to display
   $.ajax({ url: currentURL + "/api/friends", method: "GET" })
     .done(function (friendsData) {
-      console.log("----------------------------------");
-      console.log("URL: " + currentURL + "/api/friends");
-      console.log("----------------------------------");
-      console.log(friendsData);
-      console.log("----------------------------------");
            // getiing my data and transfer arrays to numbers
       let mineScores = friendsData.slice(-1).pop().scores.map(Number);
+      // console.log(mineScores);
       let totalArr = [];
       let friendsArr = friendsData.slice(0, -1);
       // console.log(friendsArr);
@@ -229,44 +282,22 @@
     console.log(indexBestFriend);
      matchedFriendName = friendsArr[indexBestFriend].name;
     matchedFriendPhoto = friendsArr[indexBestFriend].photo;
-    console.log(matchedFriendName);
-    console.log(matchedFriendPhoto);
-
-    let bestFriend = $('<div>');
-    bestFriend.append(matchedFriendName)
-     $(".bestFriendPlace").append("<h1>" + matchedFriendName + "</h1>");
-     $(".bestFriendPlace").append(`<img src=${matchedFriendPhoto}  height="200px" width="200px">`);
-    // friendsData.push(req.body);
-    // res.json(true);
-      //displaying data in jQuery
-      // for (var i = 0; i < tableData.length; i++) {
-      //   console.log(tableData[i]);
-      //   var tableSection = $('<div>');
-      //   tableSection.addClass('well');
-      //   tableSection.attr('id', 'tableWell-' + i + 1);
-      //   $('#tableSection').append(tableSection);
-      //   //table number = index +1
-      //   var tableNumber = i + 1;
-      //   $('#tableWell-' + i + 1).append('<h2><span class="label label-primary">'
-      //     + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
-      // }
+    // console.log(matchedFriendName);
+    // console.log(matchedFriendPhoto);
+    popup.css("display", "block");
+    $('#friendName').html("<h1>" + matchedFriendName + "</h1>")
+    $("img").attr("src", matchedFriendPhoto);
     }) 
-        // AJAX post the data to the friends API.
-    //     $.post("/api/friends", userData, function (data) {
 
-    //       // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-    //       $("#match-name").text(data.name);
-    //       $("#match-img").attr("src", data.photo);
+   close.on('click', () => {
+      popup.css("display", "none");
+    });
 
-    //       // Show the modal with the best match
-    //       $("#results-modal").modal("toggle");
-
-    //     });
-    //   } else {
-    //     alert("Please fill out all fields before submitting!");
-    //   }
-    
-  
+    popup.on('click', (e) => {
+      if (e.target.className === 'popup-wrapper') {
+        popup.style.display = 'none';
+      }
+    });
   </script>
 
   <!-- Optional JavaScript -->
