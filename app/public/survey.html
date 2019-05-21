@@ -245,16 +245,18 @@
         $('#photo').val("");
       });
     return false;
+    window.location.reload();
   })
    
  
 
   // //shows current url - pulling origin url where the user right now
-  var currentURL = window.location.origin;
+  let currentURL = window.location.origin;
 
   //using ajax to get data from api/tables (our server) to display
   $.ajax({ url: currentURL + "/api/friends", method: "GET" })
     .done(function (friendsData) {
+      
            // getiing my data and transfer arrays to numbers
       let mineScores = friendsData.slice(-1).pop().scores.map(Number);
       // console.log(mineScores);
@@ -282,7 +284,7 @@
     console.log(indexBestFriend);
      matchedFriendName = friendsArr[indexBestFriend].name;
     matchedFriendPhoto = friendsArr[indexBestFriend].photo;
-    // console.log(matchedFriendName);
+    console.log(matchedFriendName);
     // console.log(matchedFriendPhoto);
     popup.css("display", "block");
     $('#friendName').html("<h1>" + matchedFriendName + "</h1>")
@@ -295,9 +297,10 @@
 
     popup.on('click', function(e){
       //NEEDS FIXING
-      if (e.target.attr('popup-wrapper')) {
+      if (e.target.className === 'popup-wrapper') {
         popup.css("display", 'none');
       }
+      
     });
   </script>
 
