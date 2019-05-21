@@ -14,6 +14,19 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
   <title>Friends Finder!</title>
+  <style> 
+  body {
+    background: rgb(243, 240, 240);
+  }
+
+  .container {
+    max-width: 800px;
+  }
+
+  .chosen-select:hover {
+    opacity: 0.5;
+  }
+  </style>
 </head>
 
 <body>
@@ -147,6 +160,9 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> Submit
     </button>
   </div>
+    <hr>
+  <br>
+  <br>
     
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -173,7 +189,7 @@
       </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer bg-light">
       <div class="container">
         <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/andrewnelp/FriendFinder"
             target="_blank">GitHub Repo</a></p>
@@ -251,7 +267,13 @@
           $('.modal-title').html("<h1>" + matchedFriendName + "</h1>")
           $("img").attr("src", matchedFriendPhoto);
         }) 
-  })
+  });
+
+  $(".chosen-select").on("click", function() {
+     $(this).after('<span>  <i class="far fa-grin-hearts"></i></span>')
+  });
+  
+
 
   </script>
 
