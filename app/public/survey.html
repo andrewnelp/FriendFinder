@@ -289,13 +289,14 @@
     $("img").attr("src", matchedFriendPhoto);
     }) 
 
-   close.on('click', () => {
+   close.on('click', function() {
       popup.css("display", "none");
     });
 
-    popup.on('click', (e) => {
-      if (e.target.className === 'popup-wrapper') {
-        popup.style.display = 'none';
+    popup.on('click', function(e){
+      //NEEDS FIXING
+      if (e.target.attr('popup-wrapper')) {
+        popup.css("display", 'none');
       }
     });
   </script>
